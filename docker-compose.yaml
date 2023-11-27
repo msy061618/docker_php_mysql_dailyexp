@@ -1,0 +1,33 @@
+version: "3"
+services:
+  php-apache:
+    build: 
+      context: ./apache
+    volumes:
+      - ./dets/:/var/www/html
+    ports:
+      - 80:80
+    depends_on:
+      - mysql_db
+        
+  mysql_db:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "12345678"
+      MYSQL_DATABASE: "demodb"
+    volumes:      
+      - ./SQL_File:/docker-entrypoint-initdb.d
+  phpadmin:
+    image: phpmyadmin:latest
+    ports:
+      - 8001:80
+    restart: always
+    depends_on:
+      - mysql_db
+    environment:
+      PMA_HOST: mysql_db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1  
