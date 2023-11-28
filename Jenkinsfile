@@ -1,6 +1,6 @@
 pipeline {
     agent {
-    label "docker-agent"
+    label "devopstest"
     }
     stages {
         stage('Verify installation') {
